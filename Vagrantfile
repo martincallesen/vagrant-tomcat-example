@@ -6,14 +6,15 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "hashicorp/precise64"
-
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.provision "shell", path: "provision-tomcat.sh"
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "TomcatDev"
+    vb.memory = "1024"
+    vb.cpus = 1
+  end
+  
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
